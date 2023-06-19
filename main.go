@@ -24,7 +24,11 @@ func main() {
 	for i3 < 8{
 		fmt.Println(f())
 		i3++
-	} 
+	}
+
+	sliceAdder := BufferThis("start")
+	fmt.Println(sliceAdder("Add This"))
+	fmt.Println(sliceAdder("Also add this"))
 	
 	fmt.Println("\n--------Decorator Function--------\n")
 	dec := Decorater(AddTheseTwo)
@@ -38,6 +42,20 @@ func main() {
 	dec3 := Decorater3(SliceAdder)
 	fmt.Println(dec3([]int{1,2,3,4,5}))
 }
+// ---------------------------------------------------
+func BufferThis(start string) func(string)[]string{
+	sliceWords := []string{start}
+	return func(word string)[]string{
+		sliceWords = append(sliceWords, word)
+		return sliceWords
+	}
+}
+
+func SliceAdder(slice []int)[]int{
+	slice = append(slice, 999999)
+	return slice
+}
+// ---------------------------------------------------
 
 func Adder(num int) func() int {
 	return func() int {
@@ -62,7 +80,7 @@ func fib() func() int {
 	}
 }
 
-// Function and decorator
+//--------------------- Function and decorator---------------------
 func Decorater(fn func(int) int) func(int) int{
 	return func(param int) int{
 		fmt.Println("We now have other functionality with this")
@@ -93,8 +111,5 @@ func Decorater3(fn func([]int)[]int)func([]int)[]int{
 	}
 }
 
-func SliceAdder(slice []int)[]int{
-	slice = append(slice, 999999)
-	return slice
-}
+
 
