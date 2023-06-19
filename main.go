@@ -29,6 +29,14 @@ func main() {
 	fmt.Println("\n--------Decorator Function--------\n")
 	dec := Decorater(AddTheseTwo)
 	fmt.Println(dec(2))
+
+	fmt.Println("\n--------Decorator Function 2--------\n")
+	dec2 := Decorater2(StringBuilder)
+	fmt.Println(dec2("start"))
+
+	fmt.Println("\n--------Decorator Function 2--------\n")
+	dec3 := Decorater3(SliceAdder)
+	fmt.Println(dec3([]int{1,2,3,4,5}))
 }
 
 func Adder(num int) func() int {
@@ -65,3 +73,28 @@ func Decorater(fn func(int) int) func(int) int{
 func AddTheseTwo(num int) int{
 return num + num
 }
+
+func Decorater2(fn func(string) string) func(string)string{
+	return func(param string)string{
+		fmt.Println("string decorator")
+		return fn(param)
+	}
+}
+
+func StringBuilder(str string) string{
+	return str + " added this string"
+}
+
+
+func Decorater3(fn func([]int)[]int)func([]int)[]int{
+	return func(slice []int)[]int{
+		fmt.Println("Slice handler decorater")
+		return fn(slice)
+	}
+}
+
+func SliceAdder(slice []int)[]int{
+	slice = append(slice, 999999)
+	return slice
+}
+
